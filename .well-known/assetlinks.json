@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.alqamaa324_cyber.twa",
+        "sha256_cert_fingerprints": ["8A:50:43:22:4E:4E:1B:A7:60:27:D4:06:4A:0A:AB:D2:C2:5D:F8:D5:B8:A1:E8:AC:3D:07:4F:7D:3F:38:DA:BF"]
+      }
+    }]
