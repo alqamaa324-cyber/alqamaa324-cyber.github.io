@@ -5,23 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="monetag" content="4bf9c0117549b36a70d9335ab78641ac">
   <title>Pocket Rewards</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-  <!-- Floating Sticky Top-Bar Ad Overlay -->
+  <!-- Clean Popup Box (Koi Iframe nahi hai, page bilkul nahi phatega) -->
   <div id="ad-overlay-container" class="ad-overlay" style="display: none;">
-    <div class="ad-sticky-header">
-      <div id="ad-timer-badge" class="timer-badge">
-        <i class="fa-solid fa-clock"></i> Reward in: <b id="countdown-num">10s</b>
+    <div class="reward-popup-card">
+      <div class="popup-icon-wrap">
+        <i class="fa-solid fa-hourglass-half"></i>
       </div>
-      <button id="ad-close-btn" class="ad-finish-btn" style="display: none;" onclick="finishAndClaimReward()">
-        Claim Reward ✕
+      <h3>Ad Chal Raha Hai...</h3>
+      <p>Kripya dusre tab me ad dekhein aur 10s wait karein.</p>
+      
+      <div id="ad-timer-badge" class="popup-timer-pill">
+        <i class="fa-solid fa-clock"></i> <span id="countdown-num">10s</span>
+      </div>
+
+      <button id="ad-close-btn" class="popup-claim-btn" style="display: none;" onclick="finishAndClaimReward()">
+        Claim Coins 🎁
       </button>
-    </div>
-    <div class="ad-web-frame">
-      <iframe id="monetag-frame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+
+      <div>
+        <button type="button" class="popup-cancel-btn" onclick="cancelAdTask()">Cancel Task</button>
+      </div>
     </div>
   </div>
 
@@ -149,6 +157,6 @@
     </nav>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=2"></script>
 </body>
 </html>
