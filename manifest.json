@@ -1,17 +1,25 @@
 {
   "name": "Pocket Rewards",
   "short_name": "Rewards",
+  "description": "Play tasks, watch offers, and earn coins with Pocket Rewards daily.",
   "start_url": "index.html",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0b1329",
   "theme_color": "#0f172a",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://api.iconify.design/solar:wallet-money-bold-duotone.svg?color=%23facc15",
+      "src": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
