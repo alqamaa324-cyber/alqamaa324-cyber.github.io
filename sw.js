@@ -1,11 +1,13 @@
-// Register Service Worker for PWA Android App Installation
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').then((reg) => {
-      console.log('SW Registered!', reg);
-    }).catch((err) => {
-      console.log('SW Registration Failed', err);
-    });
-  });
-}
+self.addEventListener('install', (e) => {
+  self.skipWaiting();
+});
 
+self.addEventListener('activate', (e) => {
+  console.log('SW Active');
+});
+
+self.addEventListener('fetch', (e) => {
+  e.respondWith(
+    fetch(e.request).catch(() => new Response('Offline'))
+  );
+});
