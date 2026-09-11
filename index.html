@@ -1,1 +1,156 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="monetag" content="4bf9c0117549b36a70d9335ab78641ac">
+  <title>Pocket Rewards</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <header class="top-bar">
+      <div class="user-info">
+        <i class="fa-solid fa-circle-user avatar"></i>
+        <div>
+          <span class="user-name">Alqama</span>
+          <span class="user-status" id="auth-status">Connecting...</span>
+        </div>
+      </div>
+      <div class="coin-badge">
+        <i class="fa-solid fa-coins"></i>
+        <span id="header-balance">0</span>
+      </div>
+    </header>
+
+    <main class="content-body">
+      <!-- TAB 1: HOME -->
+      <section id="view-home" class="tab-view active">
+        <div class="banner-card">
+          <div class="banner-text">
+            <h3>Daily Reward</h3>
+            <p>Roz login karein aur free coins paayein!</p>
+            <button class="btn btn-gold" id="btn-daily-claim" onclick="claimDailyBonus()">Claim +10</button>
+          </div>
+          <i class="fa-solid fa-gift banner-icon"></i>
+        </div>
+
+        <div class="section-title">Quick Tasks</div>
+        <div class="task-grid">
+          <div class="task-card" onclick="openAdModal(2, 'Video Ad')">
+            <i class="fa-solid fa-play-circle task-icon red"></i>
+            <div class="task-info">
+              <h4>Watch Video Ad</h4>
+              <p>Earn +2 Coins</p>
+            </div>
+            <button class="btn btn-outline">Watch</button>
+          </div>
+
+          <div class="task-card" onclick="openAdModal(1, 'Website Task')">
+            <i class="fa-solid fa-globe task-icon blue"></i>
+            <div class="task-info">
+              <h4>Visit Website</h4>
+              <p>Earn +1 Coin</p>
+            </div>
+            <button class="btn btn-outline">Visit</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: TASKS -->
+      <section id="view-tasks" class="tab-view">
+        <div class="section-title">Available Offers</div>
+        <div class="offer-list">
+          <div class="offer-item" onclick="openAdModal(3, 'App Offer')">
+            <div class="offer-meta">
+              <h4>Check Partner Offer</h4>
+              <span>View offer for 10 seconds</span>
+            </div>
+            <span class="reward-tag">+3 Coins</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: REFER -->
+      <section id="view-refer" class="tab-view">
+        <div class="refer-box">
+          <i class="fa-solid fa-users-viewfinder refer-hero-icon"></i>
+          <h3>Doston ko Invite Karein</h3>
+          <p>Har invite par aapko aur aapke dost ko reward coins milte hain.</p>
+          
+          <div class="referral-code-box">
+            <span id="refer-code">POCKET89</span>
+            <button type="button" class="copy-btn" onclick="copyReferCode()"><i class="fa-regular fa-copy"></i></button>
+          </div>
+          <button class="btn btn-gold full-btn" onclick="shareReferral()">WhatsApp Share</button>
+        </div>
+      </section>
+
+      <!-- TAB 4: WALLET -->
+      <section id="view-wallet" class="tab-view">
+        <div class="wallet-balance-card">
+          <span>Current Balance</span>
+          <div class="balance-display">
+            <i class="fa-solid fa-coins"></i>
+            <h1 id="wallet-balance">0</h1>
+          </div>
+          <small>200 Coins = ₹1.00</small>
+        </div>
+
+        <div class="section-title">Redeem via UPI</div>
+        <div class="redeem-form">
+          <input type="text" id="upi-id" placeholder="Enter UPI ID (e.g. mobile@upi)">
+          
+          <div class="amount-chips">
+            <button type="button" class="chip active" onclick="selectAmount(1000, 5, this)">₹5 (1k)</button>
+            <button type="button" class="chip" onclick="selectAmount(2000, 10, this)">₹10 (2k)</button>
+            <button type="button" class="chip" onclick="selectAmount(5000, 25, this)">₹25 (5k)</button>
+          </div>
+
+          <button class="btn btn-gold full-btn" onclick="requestPayout()">Withdraw Money</button>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-item active" onclick="switchTab('view-home', this)">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('view-tasks', this)">
+        <i class="fa-solid fa-list-check"></i>
+        <span>Tasks</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('view-refer', this)">
+        <i class="fa-solid fa-share-nodes"></i>
+        <span>Refer</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('view-wallet', this)">
+        <i class="fa-solid fa-wallet"></i>
+        <span>Wallet</span>
+      </button>
+    </nav>
+
+    <!-- In-App Ad Modal -->
+    <div id="ad-modal" class="ad-modal">
+      <div class="ad-top-bar">
+        <span id="ad-timer-text"><i class="fa-solid fa-clock"></i> Reward in: <b>10s</b></span>
+        <button id="ad-close-btn" class="ad-close-btn hidden" onclick="closeAdModal(true)">
+          Claim & Cut ✕
+        </button>
+      </div>
+      <div class="ad-frame-wrap">
+        <iframe id="ad-iframe" src="about:blank"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="app.js"></script>
+</body>
+        </html>
 
