@@ -5,34 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="monetag" content="4bf9c0117549b36a70d9335ab78641ac">
   <title>Pocket Rewards</title>
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=10">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-  <!-- Full Lock Reward Popup (10s se pehle cut karne ka koi option nahi hai) -->
-  <div id="ad-overlay-container" class="ad-overlay" style="display: none;">
-    <div class="reward-popup-card">
-      <div class="popup-icon-wrap">
-        <i class="fa-solid fa-gift"></i>
-      </div>
-      <h3>Ad Task Active Hai</h3>
-      <p style="font-size: 13px; color: #94a3b8; margin: 10px 0; line-height: 1.5;">
-        Ad tab par kam se kam <b>10 second</b> rukein, fir yahan aakar apna reward claim karein!
-      </p>
-      
-      <div id="ad-timer-badge" class="popup-timer-pill">
-        <i class="fa-solid fa-clock"></i> <span id="countdown-num">10s</span>
-      </div>
-
-      <!-- Yeh button sirf tabhi aayega jab 10 second poore ho chuke honge -->
-      <button id="ad-close-btn" class="popup-claim-btn" style="display: none;" onclick="finishAndClaimReward()">
-        🎉 Claim Coins Now
-      </button>
-    </div>
-  </div>
-
   <div class="app-container">
+
+    <!-- Inside App Screen Modal (Ab kabhi bahar nahi bhagega) -->
+    <div id="ad-overlay-container" class="ad-modal-popup" style="display: none;">
+      <div class="modal-card">
+        <i class="fa-solid fa-gift modal-hero-icon"></i>
+        <h3>Ad Task Active Hai</h3>
+        <p>Ad doosre tab mein open ho chuka hai. Wahan 10s rukein, fir yahan aakar claim karein.</p>
+        
+        <div id="ad-timer-badge" class="timer-pill">
+          <i class="fa-solid fa-clock"></i> <span id="countdown-num">10s</span>
+        </div>
+
+        <button id="ad-close-btn" class="claim-now-btn" style="display: none;" onclick="finishAndClaimReward()">
+          🎉 Claim Coins Now
+        </button>
+      </div>
+    </div>
+
     <header class="top-bar">
       <div class="user-info">
         <i class="fa-solid fa-circle-user avatar"></i>
@@ -156,6 +152,6 @@
     </nav>
   </div>
 
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>
