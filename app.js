@@ -1,18 +1,3 @@
-// --- Firebase Config & Initialization ---
-const firebaseConfig = {
-  apiKey: "AIzaSyDummyKeyReplaceIfUsingLiveAuth",
-  authDomain: "pocketrewardsapp-46e26.firebaseapp.com",
-  databaseURL: "https://pocketrewardsapp-46e26-default-rtdb.firebaseio.com",
-  projectId: "pocketrewardsapp-46e26",
-  storageBucket: "pocketrewardsapp-46e26.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef"
-};
-
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
 // Monetag Direct Ad Links (Rotating Pool)
 const MONETAG_DIRECT_LINKS = [
   "https://omg10.com/4/11770859",
@@ -22,8 +7,8 @@ const MONETAG_DIRECT_LINKS = [
 ];
 
 let userBalance = parseInt(localStorage.getItem("userBalance")) || 0;
-let adRewardAmount = 0;
-let adInterval = null;
+let currentReward = 0;
+let countdownTimer = null;
 
 function updateBalanceDisplay() {
   const headerBal = document.getElementById("header-balance");
@@ -57,57 +42,55 @@ function claimDailyBonus() {
   alert("Badhai ho! +10 Coins credit ho gaye.");
 }
 
-function openAdModal(reward, taskType) {
-  adRewardAmount = reward;
-  const modal = document.getElementById("ad-modal");
-  const iframe = document.getElementById("ad-iframe");
+// Fixed Ad Task Flow: Sticky Header with 10s Timer & Auto-Claim Button
+function startAdTask(reward) {
+  currentReward = reward;
+  const overlay = document.getElementById("ad-overlay-container");
+  const frame = document.getElementById("monetag-frame");
   const closeBtn = document.getElementById("ad-close-btn");
-  const timerText = document.getElementById("ad-timer-text");
+  const countdownNum = document.getElementById("countdown-num");
+  const timerBadge = document.getElementById("ad-timer-badge");
 
-  // Har bar 4 direct links mein se random link select karega
+  // Har click par 4 direct links me se random link pick hoga with cache buster
   const randomIndex = Math.floor(Math.random() * MONETAG_DIRECT_LINKS.length);
-  const selectedLink = MONETAG_DIRECT_LINKS[randomIndex];
+  const selectedLink = MONETAG_DIRECT_LINKS[randomIndex] + "?_cb=" + Date.now();
 
-  // Unique parameter jodne se ad network har baar naya ad fetch karta hai
-  const freshAdUrl = selectedLink + "?_cb=" + new Date().getTime();
+  // Overlay aur Sticky Header show karein
+  overlay.style.display = "flex";
+  closeBtn.style.display = "none";
+  timerBadge.style.display = "flex";
+  frame.src = selectedLink;
 
-  // Naye tab me ad open karega taaki video/interactive offer block na ho
-  window.open(freshAdUrl, "_blank");
+  let seconds = 10;
+  countdownNum.innerText = seconds + "s";
 
-  // App ke andar timer modal show karega
-  modal.style.display = "flex";
-  iframe.src = "about:blank";
-  closeBtn.classList.add("hidden");
-
-  let timeLeft = 10;
-  timerText.innerHTML = `<i class="fa-solid fa-clock"></i> Reward in: <b>${timeLeft}s</b>`;
-
-  clearInterval(adInterval);
-  adInterval = setInterval(() => {
-    timeLeft--;
-    timerText.innerHTML = `<i class="fa-solid fa-clock"></i> Reward in: <b>${timeLeft}s</b>`;
-
-    if (timeLeft <= 0) {
-      clearInterval(adInterval);
-      timerText.innerHTML = `<i class="fa-solid fa-circle-check"></i> Reward Ready!`;
-      closeBtn.classList.remove("hidden");
+  clearInterval(countdownTimer);
+  countdownTimer = setInterval(() => {
+    seconds--;
+    if (seconds > 0) {
+      countdownNum.innerText = seconds + "s";
+    } else {
+      clearInterval(countdownTimer);
+      countdownNum.innerText = "Completed!";
+      timerBadge.style.display = "none";
+      closeBtn.style.display = "block"; // 10 second pure hote hi bada Green button aayega
     }
   }, 1000);
 }
 
-function closeAdModal(claimed) {
-  clearInterval(adInterval);
-  const modal = document.getElementById("ad-modal");
-  const iframe = document.getElementById("ad-iframe");
+function finishAndClaimReward() {
+  clearInterval(countdownTimer);
+  const overlay = document.getElementById("ad-overlay-container");
+  const frame = document.getElementById("monetag-frame");
 
-  iframe.src = "about:blank";
-  modal.style.display = "none";
+  frame.src = "about:blank";
+  overlay.style.display = "none";
 
-  if (claimed && adRewardAmount > 0) {
-    userBalance += adRewardAmount;
+  if (currentReward > 0) {
+    userBalance += currentReward;
     updateBalanceDisplay();
-    alert(`Reward Claimed! +${adRewardAmount} Coins jode gaye.`);
-    adRewardAmount = 0;
+    alert(`🎉 Shandaar! +${currentReward} Coins aapke wallet mein jud gaye.`);
+    currentReward = 0;
   }
 }
 
@@ -152,6 +135,4 @@ function requestPayout() {
 
 document.addEventListener("DOMContentLoaded", () => {
   updateBalanceDisplay();
-  const authStatus = document.getElementById("auth-status");
-  if (authStatus) authStatus.innerText = "Online";
 });
