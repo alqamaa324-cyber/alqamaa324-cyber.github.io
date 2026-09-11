@@ -8,7 +8,9 @@ const MONETAG_DIRECT_LINKS = [
 
 let userBalance = parseInt(localStorage.getItem("userBalance")) || 0;
 let currentReward = 0;
-let countdownTimer = null;
+let taskStartTime = 0;
+let taskCheckInterval = null;
+const REQUIRED_SECONDS = 10;
 
 function updateBalanceDisplay() {
   const headerBal = document.getElementById("header-balance");
@@ -42,59 +44,88 @@ function claimDailyBonus() {
   alert("Badhai ho! +10 Coins credit ho gaye.");
 }
 
+// Start Ad Task
 function startAdTask(reward) {
   currentReward = reward;
-  const overlay = document.getElementById("ad-overlay-container");
-  const closeBtn = document.getElementById("ad-close-btn");
-  const countdownNum = document.getElementById("countdown-num");
-  const timerBadge = document.getElementById("ad-timer-badge");
+  taskStartTime = Date.now(); // Real-time timestamp capture
 
-  // Har bar alag direct link choose karein
+  const overlay = document.getElementById("ad-overlay-container");
+  const claimBtn = document.getElementById("ad-close-btn");
+  const timerBadge = document.getElementById("ad-timer-badge");
+  const countdownNum = document.getElementById("countdown-num");
+
+  // Pick random Monetag link
   const randomIndex = Math.floor(Math.random() * MONETAG_DIRECT_LINKS.length);
   const selectedLink = MONETAG_DIRECT_LINKS[randomIndex] + "?_cb=" + Date.now();
 
-  // New tab me full screen ad open karega (taaki iframe ka locha na rahe)
+  // Show Waiting Box in App
+  overlay.style.display = "flex";
+  claimBtn.style.display = "none";
+  timerBadge.style.display = "inline-block";
+  countdownNum.innerText = REQUIRED_SECONDS + "s";
+
+  // Open Ad in new tab
   window.open(selectedLink, "_blank");
 
-  // App me clean timer modal popup show karega
-  overlay.style.display = "flex";
-  closeBtn.style.display = "none";
-  timerBadge.style.display = "inline-block";
-
-  let seconds = 10;
-  countdownNum.innerText = seconds + "s";
-
-  clearInterval(countdownTimer);
-  countdownTimer = setInterval(() => {
-    seconds--;
-    if (seconds > 0) {
-      countdownNum.innerText = seconds + "s";
-    } else {
-      clearInterval(countdownTimer);
-      timerBadge.style.display = "none";
-      closeBtn.style.display = "block"; // 10s baad button appear hoga
-    }
-  }, 1000);
+  // Continuous background checker
+  clearInterval(taskCheckInterval);
+  taskCheckInterval = setInterval(checkAdTimeProgress, 500);
 }
 
+// Check real time elapsed (Background pause proof)
+function checkAdTimeProgress() {
+  if (!taskStartTime) return;
+
+  const secondsPassed = Math.floor((Date.now() - taskStartTime) / 1000);
+  const secondsRemaining = REQUIRED_SECONDS - secondsPassed;
+
+  const countdownNum = document.getElementById("countdown-num");
+  const timerBadge = document.getElementById("ad-timer-badge");
+  const claimBtn = document.getElementById("ad-close-btn");
+
+  if (secondsRemaining > 0) {
+    if (countdownNum) countdownNum.innerText = secondsRemaining + "s";
+  } else {
+    clearInterval(taskCheckInterval);
+    if (timerBadge) timerBadge.style.display = "none";
+    if (claimBtn) claimBtn.style.display = "block"; // Claim button appears!
+  }
+}
+
+// User jaise hi wapas app tab par aayega, turant check karega
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden && taskStartTime) {
+    checkAdTimeProgress();
+  }
+});
+
+window.addEventListener("focus", () => {
+  if (taskStartTime) {
+    checkAdTimeProgress();
+  }
+});
+
 function finishAndClaimReward() {
-  clearInterval(countdownTimer);
+  clearInterval(taskCheckInterval);
+  taskStartTime = 0;
+  
   const overlay = document.getElementById("ad-overlay-container");
   overlay.style.display = "none";
 
   if (currentReward > 0) {
     userBalance += currentReward;
     updateBalanceDisplay();
-    alert(`🎉 Shandaar! +${currentReward} Coins wallet mein jud gaye.`);
+    alert(`🎉 Badhai ho! +${currentReward} Coins aapke wallet mein jud gaye.`);
     currentReward = 0;
   }
 }
 
 function cancelAdTask() {
-  clearInterval(countdownTimer);
+  clearInterval(taskCheckInterval);
+  taskStartTime = 0;
+  currentReward = 0;
   const overlay = document.getElementById("ad-overlay-container");
   overlay.style.display = "none";
-  currentReward = 0;
 }
 
 function copyReferCode() {
