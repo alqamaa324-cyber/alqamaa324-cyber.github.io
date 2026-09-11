@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <link rel="stylesheet" href="style.css?v=15">
+  <link rel="stylesheet" href="style.css?v=20">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -59,9 +59,29 @@
           <div class="banner-text">
             <h3>Daily Reward</h3>
             <p>Roz login karein aur free coins paayein!</p>
-            <button class="btn btn-gold" id="btn-daily-claim" onclick="claimDailyBonus()">Claim +10</button>
+            <button type="button" class="btn btn-gold" id="btn-daily-claim" onclick="claimDailyBonus()">Claim +10</button>
           </div>
           <i class="fa-solid fa-gift banner-icon"></i>
+        </div>
+
+        <!-- Lucky Spin Wheel Card -->
+        <div class="spin-container-card">
+          <div class="spin-header">
+            <div>
+              <h3>🎡 Lucky Spin Wheel</h3>
+              <p>Spin karo aur jeeto coins!</p>
+            </div>
+            <span class="spins-badge" id="spins-left-badge">Spins Left: 3/3</span>
+          </div>
+          
+          <div class="wheel-box">
+            <div class="wheel-pointer">▼</div>
+            <canvas id="wheelCanvas" width="260" height="260"></canvas>
+          </div>
+
+          <button type="button" class="btn btn-gold full-btn" id="btn-spin" onclick="handleSpinAction()">
+            Spin Now (Free)
+          </button>
         </div>
 
         <div class="section-title">Quick Tasks</div>
@@ -111,7 +131,7 @@
             <span id="refer-code">POCKET89</span>
             <button type="button" class="copy-btn" onclick="copyReferCode()"><i class="fa-regular fa-copy"></i></button>
           </div>
-          <button class="btn btn-gold full-btn" onclick="shareReferral()">WhatsApp Share</button>
+          <button type="button" class="btn btn-gold full-btn" onclick="shareReferral()">WhatsApp Share</button>
         </div>
       </section>
 
@@ -136,32 +156,32 @@
             <button type="button" class="chip" onclick="selectAmount(5000, 25, this)">₹25 (5k)</button>
           </div>
 
-          <button class="btn btn-gold full-btn" onclick="requestPayout()">Withdraw Money</button>
+          <button type="button" class="btn btn-gold full-btn" onclick="requestPayout()">Withdraw Money</button>
         </div>
       </section>
     </main>
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-      <button class="nav-item active" onclick="switchTab('view-home', this)">
+      <button type="button" class="nav-item active" onclick="switchTab('view-home', this)">
         <i class="fa-solid fa-house"></i>
         <span>Home</span>
       </button>
-      <button class="nav-item" onclick="switchTab('view-tasks', this)">
+      <button type="button" class="nav-item" onclick="switchTab('view-tasks', this)">
         <i class="fa-solid fa-list-check"></i>
         <span>Tasks</span>
       </button>
-      <button class="nav-item" onclick="switchTab('view-refer', this)">
+      <button type="button" class="nav-item" onclick="switchTab('view-refer', this)">
         <i class="fa-solid fa-share-nodes"></i>
         <span>Refer</span>
       </button>
-      <button class="nav-item" onclick="switchTab('view-wallet', this)">
+      <button type="button" class="nav-item" onclick="switchTab('view-wallet', this)">
         <i class="fa-solid fa-wallet"></i>
         <span>Wallet</span>
       </button>
     </nav>
   </div>
 
-  <script src="app.js?v=15"></script>
+  <script src="app.js?v=20"></script>
 </body>
 </html>
