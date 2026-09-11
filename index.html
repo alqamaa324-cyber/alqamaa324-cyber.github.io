@@ -5,14 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="monetag" content="4bf9c0117549b36a70d9335ab78641ac">
   <title>Pocket Rewards</title>
-  <link rel="stylesheet" href="style.css?v=10">
+
+  <!-- PWA & Mobile App Standalone Setup -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <link rel="stylesheet" href="style.css?v=11">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
   <div class="app-container">
 
-    <!-- Inside App Screen Modal (Ab kabhi bahar nahi bhagega) -->
+    <!-- Modal Popup Box -->
     <div id="ad-overlay-container" class="ad-modal-popup" style="display: none;">
       <div class="modal-card">
         <i class="fa-solid fa-gift modal-hero-icon"></i>
@@ -152,6 +160,6 @@
     </nav>
   </div>
 
-  <script src="app.js?v=10"></script>
+  <script src="app.js?v=11"></script>
 </body>
 </html>
