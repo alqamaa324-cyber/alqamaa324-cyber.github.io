@@ -1,18 +1,17 @@
 {
   "name": "Pocket Rewards",
   "short_name": "Rewards",
-  "start_url": "./index.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#0b1329",
   "theme_color": "#0f172a",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://img.freepik.com/free-psd/3d-rendering-finance-icon_23-2149590858.jpg",
+      "src": "https://api.iconify.design/solar:wallet-money-bold-duotone.svg?color=%23facc15",
       "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }
-
