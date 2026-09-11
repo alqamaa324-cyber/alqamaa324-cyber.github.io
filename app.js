@@ -13,8 +13,13 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-// Monetag Direct Ad Link
-const MONETAG_DIRECT_LINK = "https://omg10.com/4/11771171";
+// Monetag Direct Ad Links (Rotating Pool)
+const MONETAG_DIRECT_LINKS = [
+  "https://omg10.com/4/11770859",
+  "https://omg10.com/4/11771215",
+  "https://omg10.com/4/11771218",
+  "https://omg10.com/4/11771221"
+];
 
 let userBalance = parseInt(localStorage.getItem("userBalance")) || 0;
 let adRewardAmount = 0;
@@ -59,9 +64,19 @@ function openAdModal(reward, taskType) {
   const closeBtn = document.getElementById("ad-close-btn");
   const timerText = document.getElementById("ad-timer-text");
 
-  // Open Direct Ad Link
-  iframe.src = MONETAG_DIRECT_LINK;
+  // Har bar 4 direct links mein se random link select karega
+  const randomIndex = Math.floor(Math.random() * MONETAG_DIRECT_LINKS.length);
+  const selectedLink = MONETAG_DIRECT_LINKS[randomIndex];
+
+  // Unique parameter jodne se ad network har baar naya ad fetch karta hai
+  const freshAdUrl = selectedLink + "?_cb=" + new Date().getTime();
+
+  // Naye tab me ad open karega taaki video/interactive offer block na ho
+  window.open(freshAdUrl, "_blank");
+
+  // App ke andar timer modal show karega
   modal.style.display = "flex";
+  iframe.src = "about:blank";
   closeBtn.classList.add("hidden");
 
   let timeLeft = 10;
@@ -140,4 +155,3 @@ document.addEventListener("DOMContentLoaded", () => {
   const authStatus = document.getElementById("auth-status");
   if (authStatus) authStatus.innerText = "Online";
 });
-    
