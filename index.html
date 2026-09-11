@@ -10,13 +10,28 @@
 </head>
 <body>
 
+  <!-- Floating Ad Overlay System (Screen ke upar hamesha fix rahega) -->
+  <div id="ad-overlay-container" class="ad-overlay" style="display: none;">
+    <div class="ad-sticky-header">
+      <div id="ad-timer-badge" class="timer-badge">
+        <i class="fa-solid fa-clock"></i> Reward in: <b id="countdown-num">10s</b>
+      </div>
+      <button id="ad-close-btn" class="ad-finish-btn" style="display: none;" onclick="finishAndClaimReward()">
+        Claim Reward ✕
+      </button>
+    </div>
+    <div class="ad-web-frame">
+      <iframe id="monetag-frame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+    </div>
+  </div>
+
   <div class="app-container">
     <header class="top-bar">
       <div class="user-info">
         <i class="fa-solid fa-circle-user avatar"></i>
         <div>
           <span class="user-name">Alqama</span>
-          <span class="user-status" id="auth-status">Connecting...</span>
+          <span class="user-status" id="auth-status">Online</span>
         </div>
       </div>
       <div class="coin-badge">
@@ -39,7 +54,7 @@
 
         <div class="section-title">Quick Tasks</div>
         <div class="task-grid">
-          <div class="task-card" onclick="openAdModal(2, 'Video Ad')">
+          <div class="task-card" onclick="startAdTask(2)">
             <i class="fa-solid fa-play-circle task-icon red"></i>
             <div class="task-info">
               <h4>Watch Video Ad</h4>
@@ -48,7 +63,7 @@
             <button class="btn btn-outline">Watch</button>
           </div>
 
-          <div class="task-card" onclick="openAdModal(1, 'Website Task')">
+          <div class="task-card" onclick="startAdTask(1)">
             <i class="fa-solid fa-globe task-icon blue"></i>
             <div class="task-info">
               <h4>Visit Website</h4>
@@ -63,7 +78,7 @@
       <section id="view-tasks" class="tab-view">
         <div class="section-title">Available Offers</div>
         <div class="offer-list">
-          <div class="offer-item" onclick="openAdModal(3, 'App Offer')">
+          <div class="offer-item" onclick="startAdTask(3)">
             <div class="offer-meta">
               <h4>Check Partner Offer</h4>
               <span>View offer for 10 seconds</span>
@@ -132,25 +147,8 @@
         <span>Wallet</span>
       </button>
     </nav>
-
-    <!-- In-App Ad Modal -->
-    <div id="ad-modal" class="ad-modal">
-      <div class="ad-top-bar">
-        <span id="ad-timer-text"><i class="fa-solid fa-clock"></i> Reward in: <b>10s</b></span>
-        <button id="ad-close-btn" class="ad-close-btn hidden" onclick="closeAdModal(true)">
-          Claim & Cut ✕
-        </button>
-      </div>
-      <div class="ad-frame-wrap">
-        <iframe id="ad-iframe" src="about:blank"></iframe>
-      </div>
-    </div>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   <script src="app.js"></script>
 </body>
-        </html>
-
+</html>
