@@ -42,24 +42,24 @@ function claimDailyBonus() {
   alert("Badhai ho! +10 Coins credit ho gaye.");
 }
 
-// Fixed Ad Task Flow: Sticky Header with 10s Timer & Auto-Claim Button
 function startAdTask(reward) {
   currentReward = reward;
   const overlay = document.getElementById("ad-overlay-container");
-  const frame = document.getElementById("monetag-frame");
   const closeBtn = document.getElementById("ad-close-btn");
   const countdownNum = document.getElementById("countdown-num");
   const timerBadge = document.getElementById("ad-timer-badge");
 
-  // Har click par 4 direct links me se random link pick hoga with cache buster
+  // Har bar alag direct link choose karein
   const randomIndex = Math.floor(Math.random() * MONETAG_DIRECT_LINKS.length);
   const selectedLink = MONETAG_DIRECT_LINKS[randomIndex] + "?_cb=" + Date.now();
 
-  // Overlay aur Sticky Header show karein
+  // New tab me full screen ad open karega (taaki iframe ka locha na rahe)
+  window.open(selectedLink, "_blank");
+
+  // App me clean timer modal popup show karega
   overlay.style.display = "flex";
   closeBtn.style.display = "none";
-  timerBadge.style.display = "flex";
-  frame.src = selectedLink;
+  timerBadge.style.display = "inline-block";
 
   let seconds = 10;
   countdownNum.innerText = seconds + "s";
@@ -71,9 +71,8 @@ function startAdTask(reward) {
       countdownNum.innerText = seconds + "s";
     } else {
       clearInterval(countdownTimer);
-      countdownNum.innerText = "Completed!";
       timerBadge.style.display = "none";
-      closeBtn.style.display = "block"; // 10 second pure hote hi bada Green button aayega
+      closeBtn.style.display = "block"; // 10s baad button appear hoga
     }
   }, 1000);
 }
@@ -81,17 +80,21 @@ function startAdTask(reward) {
 function finishAndClaimReward() {
   clearInterval(countdownTimer);
   const overlay = document.getElementById("ad-overlay-container");
-  const frame = document.getElementById("monetag-frame");
-
-  frame.src = "about:blank";
   overlay.style.display = "none";
 
   if (currentReward > 0) {
     userBalance += currentReward;
     updateBalanceDisplay();
-    alert(`🎉 Shandaar! +${currentReward} Coins aapke wallet mein jud gaye.`);
+    alert(`🎉 Shandaar! +${currentReward} Coins wallet mein jud gaye.`);
     currentReward = 0;
   }
+}
+
+function cancelAdTask() {
+  clearInterval(countdownTimer);
+  const overlay = document.getElementById("ad-overlay-container");
+  overlay.style.display = "none";
+  currentReward = 0;
 }
 
 function copyReferCode() {
