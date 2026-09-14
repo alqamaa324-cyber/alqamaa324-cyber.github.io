@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <link rel="stylesheet" href="style.css?v=20">
+  <link rel="stylesheet" href="style.css?v=21">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -86,13 +86,14 @@
 
         <div class="section-title">Quick Tasks</div>
         <div class="task-grid">
-          <div class="task-card" onclick="startAdTask(2)">
+          <!-- Watch Video Ad: 1000 (1k) Coins -->
+          <div class="task-card" onclick="startAdTask(1000)">
             <i class="fa-solid fa-play-circle task-icon red"></i>
             <div class="task-info">
               <h4>Watch Video Ad</h4>
-              <p>Earn +2 Coins</p>
+              <p>Earn +1k Coins</p>
             </div>
-            <button type="button" class="btn btn-outline" onclick="event.stopPropagation(); startAdTask(2)">Watch</button>
+            <button type="button" class="btn btn-outline" onclick="event.stopPropagation(); startAdTask(1000)">Watch</button>
           </div>
 
           <div class="task-card" onclick="startAdTask(1)">
@@ -182,6 +183,6 @@
     </nav>
   </div>
 
-  <script src="app.js?v=20"></script>
+  <script src="app.js?v=21"></script>
 </body>
 </html>
